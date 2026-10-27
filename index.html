@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DailyReminder — Pengingat Jadwal dan Tugas Harian</title>
+  <meta name="description" content="Aplikasi pengingat jadwal dan tugas harian yang praktis, modern, dan mudah digunakan untuk pelajar SMK.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ================= AUTH VIEW (LOGIN / REGISTER) ================= -->
+  <main id="authView" class="auth-wrapper">
+    <div class="auth-card">
+      <!-- App Header / Logo -->
+      <div class="auth-header">
+        <div class="auth-logo-badge">
+          <svg class="icon-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="3" ry="3"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          <svg class="icon-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+        </div>
+        <h1 class="auth-title">Daily<span class="text-primary">Reminder</span></h1>
+        <p class="auth-slogan">"Atur Jadwalmu, Capai Tujuanmu!"</p>
+        <p class="auth-subtitle">Kelola jadwal pelajaran & tugas sekolah dengan mudah</p>
+      </div>
+
+      <!-- Mode Offline Notice -->
+      <div class="alert-box alert-success">
+        <div class="alert-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+        </div>
+        <div class="alert-content">
+          <strong>Mode Offline & Demo:</strong> Data disimpan aman di perangkat Anda (browser localStorage) tanpa perlu server internet.
+        </div>
+      </div>
+
+      <!-- Quick Demo Login Button -->
+      <button type="button" id="btnQuickDemo" class="btn-demo-outline">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+        Masuk Langsung (Akun mieoeoeo Demo)
+      </button>
+
+      <!-- Auth Tabs Switcher -->
+      <div class="auth-tabs">
+        <button type="button" class="auth-tab-btn active" id="tabLoginBtn">Masuk</button>
+        <button type="button" class="auth-tab-btn" id="tabRegisterBtn">Daftar Akun</button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="loginForm" class="auth-form">
+        <div class="form-group">
+          <label for="loginUsername">Email atau Username <span class="required">*</span></label>
+          <div class="input-icon-wrap">
+            <span class="input-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </span>
+            <input type="text" id="loginUsername" placeholder="mieoeoeo" required value="mieoeoeo">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="loginPassword">Password <span class="required">*</span></label>
+          <div class="input-icon-wrap">
+            <span class="input-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+            </span>
+            <input type="password" id="loginPassword" placeholder="••••••" required value="123456">
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+            <polyline points="10 17 15 12 10 7"></polyline>
+            <line x1="15" y1="12" x2="3" y2="12"></line>
+          </svg>
+          Masuk Sekarang
+        </button>
+      </form>
+
+      <!-- Register Form -->
+      <form id="registerForm" class="auth-form hidden">
+        <div class="form-group">
+          <label for="regNama">Nama Lengkap <span class="required">*</span></label>
+          <div class="input-icon-wrap">
+            <span class="input-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </span>
+            <input type="text" id="regNama" placeholder="Contoh: Mieoeoeo" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="regSekolah">Sekolah / Jurusan <span class="required">*</span></label>
+          <div class="input-icon-wrap">
+            <span class="input-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+              </svg>
+            </span>
+            <input type="text" id="regSekolah" placeholder="Contoh: SMK Negeri 1 (PPLG)" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="regUsername">Email atau Username <span class="required">*</span></label>
+          <div class="input-icon-wrap">
+            <span class="input-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </span>
+            <input type="text" id="regUsername" placeholder="username atau email" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="regPassword">Password <span class="required">*</span></label>
+          <div class="input-icon-wrap">
+            <span class="input-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+            </span>
+            <input type="password" id="regPassword" placeholder="Minimal 6 karakter" required>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">
+          Daftar Akun Baru
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <!-- ================= MAIN APP VIEW ================= -->
+  <div id="appView" class="app-layout hidden">
+    <!-- Top Navigation Bar -->
+    <header class="navbar-container">
+      <div class="navbar-inner">
+        <!-- Brand Logo -->
+        <div class="navbar-brand">
+          <div class="brand-logo-box">
+            <svg class="icon-calendar-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="3" ry="3"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <svg class="icon-bell-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+          </div>
+          <span class="brand-title">Daily<span class="text-primary">Reminder</span></span>
+        </div>
+
+        <!-- Navigation Links -->
+        <nav class="nav-links">
+          <button type="button" class="nav-btn active" data-tab="beranda">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span>Beranda</span>
+          </button>
+          <button type="button" class="nav-btn" data-tab="jadwal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <span>Jadwal</span>
+          </button>
+          <button type="button" class="nav-btn" data-tab="tugas">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 11 12 14 22 4"></polyline>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+            </svg>
+            <span>Tugas</span>
+          </button>
+          <button type="button" class="nav-btn" data-tab="profil">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <span>Profil</span>
+          </button>
+        </nav>
+
+        <!-- Navbar Action Buttons -->
+        <div class="nav-actions">
+          <button type="button" id="btnNotificationCenter" class="btn-icon-notify" title="Pemberitahuan & Pengingat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+            <span id="notifyBadge" class="notify-badge hidden">0</span>
+          </button>
+
+          <button type="button" id="btnNavTambah" class="btn btn-primary btn-sm">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>+ Tambah</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-container">
+      
+      <!-- ================= 1. HALAMAN BERANDA ================= -->
+      <section id="tab-beranda" class="tab-pane active">
+        <!-- Hero Greeting Banner -->
+        <div class="hero-banner">
+          <h1 class="hero-greeting" id="berandaGreeting">Selamat Siang, Mieoeoeo! 👋</h1>
+          <p class="hero-date" id="berandaDate">Senin, 26 Oktober 2026</p>
+        </div>
+
+        <!-- Stat Summary Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon-wrap stat-clock">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <span class="stat-number" id="statJadwalHariIni">3</span>
+              <span class="stat-label">Jadwal Hari Ini</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon-wrap stat-pending">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="9" y1="15" x2="15" y2="15"></line>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <span class="stat-number" id="statTugasBelumSelesai">0</span>
+              <span class="stat-label">Tugas Belum Selesai</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon-wrap stat-done">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <span class="stat-number" id="statTugasSelesai">4</span>
+              <span class="stat-label">Tugas Selesai</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Beranda 2-Column Grid -->
+        <div class="beranda-columns">
+          <!-- Left Column: Jadwal Hari Ini -->
+          <div class="beranda-card-box">
+            <div class="beranda-card-header">
+              <div class="beranda-header-title">
+                <svg class="icon-red" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                <h2>Jadwal Hari Ini</h2>
+              </div>
+              <span class="badge-count" id="badgeCountJadwalHariIni">3</span>
+            </div>
+            <div class="items-list" id="listBerandaJadwal">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <!-- Right Column: Daftar Tugas -->
+          <div class="beranda-card-box">
+            <div class="beranda-card-header">
+              <div class="beranda-header-title">
+                <svg class="icon-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="9 11 12 14 22 4"></polyline>
+                  <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                </svg>
+                <h2>Daftar Tugas</h2>
+              </div>
+              <span class="badge-count" id="badgeCountTugasHariIni">2</span>
+            </div>
+            <div class="items-list" id="listBerandaTugas">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 2. HALAMAN JADWAL ================= -->
+      <section id="tab-jadwal" class="tab-pane">
+        <!-- Top Title & Action -->
+        <div class="page-header-row">
+          <div>
+            <h1 class="page-title">Jadwal Kegiatan</h1>
+            <p class="page-subtitle">Kelola jam pelajaran, kegiatan sekolah, dan agenda harianmu</p>
+          </div>
+          <button type="button" class="btn btn-primary btn-tambah-jadwal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            + Tambah Jadwal
+          </button>
+        </div>
+
+        <!-- Search and Filter Bar -->
+        <div class="filter-card">
+          <div class="search-input-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="searchJadwalInput" placeholder="Cari nama kegiatan atau catatan...">
+          </div>
+
+          <div class="filter-row">
+            <span class="filter-label">Kategori:</span>
+            <div class="filter-pills" id="jadwalCategoryFilters">
+              <button type="button" class="pill-btn active" data-category="Semua">Semua</button>
+              <button type="button" class="pill-btn" data-category="Pelajaran">Pelajaran</button>
+              <button type="button" class="pill-btn" data-category="Pribadi">Pribadi</button>
+              <button type="button" class="pill-btn" data-category="Pekerjaan">Pekerjaan</button>
+              <button type="button" class="pill-btn" data-category="Lainnya">Lainnya</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Full Schedule List -->
+        <div class="items-list" id="listSemuaJadwal">
+          <!-- Rendered via JS -->
+        </div>
+      </section>
+
+      <!-- ================= 3. HALAMAN TUGAS ================= -->
+      <section id="tab-tugas" class="tab-pane">
+        <!-- Top Title & Action -->
+        <div class="page-header-row">
+          <div>
+            <h1 class="page-title">Daftar Tugas</h1>
+            <p class="page-subtitle">Pantau tugas sekolah, PR, dan proyek agar tepat waktu</p>
+          </div>
+          <button type="button" class="btn btn-primary btn-tambah-tugas">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            + Tambah Tugas
+          </button>
+        </div>
+
+        <!-- Search and Filter Bar -->
+        <div class="filter-card">
+          <div class="search-input-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="searchTugasInput" placeholder="Cari nama tugas atau catatan...">
+          </div>
+
+          <div class="filter-row">
+            <span class="filter-label">Status:</span>
+            <div class="filter-pills" id="tugasStatusFilters">
+              <button type="button" class="pill-btn active" data-status="Semua">Semua Status</button>
+              <button type="button" class="pill-btn" data-status="Belum Selesai">Belum Selesai</button>
+              <button type="button" class="pill-btn" data-status="Selesai">Selesai</button>
+            </div>
+          </div>
+
+          <div class="filter-row">
+            <span class="filter-label">Kategori:</span>
+            <div class="filter-pills" id="tugasCategoryFilters">
+              <button type="button" class="pill-btn active" data-category="Semua">Semua Kategori</button>
+              <button type="button" class="pill-btn" data-category="Pelajaran">Pelajaran</button>
+              <button type="button" class="pill-btn" data-category="Pribadi">Pribadi</button>
+              <button type="button" class="pill-btn" data-category="Pekerjaan">Pekerjaan</button>
+              <button type="button" class="pill-btn" data-category="Lainnya">Lainnya</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Full Tasks List -->
+        <div class="items-list" id="listSemuaTugas">
+          <!-- Rendered via JS -->
+        </div>
+      </section>
+
+      <!-- ================= 4. HALAMAN PROFIL & PENGATURAN ================= -->
+      <section id="tab-profil" class="tab-pane">
+        <div class="page-header-row">
+          <div>
+            <h1 class="page-title">Profil & Pengaturan</h1>
+            <p class="page-subtitle">Kelola informasi pengguna, preferensi notifikasi, dan data aplikasi</p>
+          </div>
+        </div>
+
+        <div class="profil-container">
+          <!-- Profile Info Card -->
+          <div class="profile-card">
+            <div class="profile-avatar" id="profileAvatar">M</div>
+            <div class="profile-details">
+              <h2 class="profile-name" id="profileName">Mieoeoeo</h2>
+              <p class="profile-school" id="profileSchool">SMK Negeri 1 (PPLG)</p>
+              <p class="profile-email" id="profileEmail">mieoeoeo@smk.belajar.id</p>
+            </div>
+            <button type="button" id="btnEditProfile" class="btn btn-outline btn-sm" style="margin-left:auto;">
+              ✏ Edit Profil
+            </button>
+          </div>
+
+          <!-- Section: Pengaturan Notifikasi & Pengingat -->
+          <div class="settings-section">
+            <h3 class="section-title">Pengaturan Notifikasi & Pengingat</h3>
+            
+            <div class="alert-box alert-success" style="margin-bottom: 16px;">
+              <div class="alert-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="16" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+              </div>
+              <div class="alert-content">
+                <strong>Informasi Pengingat Web:</strong> Notifikasi browser aktif saat tab DailyReminder dibuka. Jika browser ditutup atau HP terkunci mendalam, notifikasi web memiliki keterbatasan sistem. Untuk pengingat tanpa buka browser, proyek dapat dikembangkan ke aplikasi Android lokal atau Service Worker Push.
+              </div>
+            </div>
+
+            <div class="setting-item-card">
+              <div class="setting-item-info">
+                <h4>Izin Notifikasi Browser</h4>
+                <p id="notifStatusText">Status: Belum Diizinkan (Klik Aktifkan)</p>
+              </div>
+              <button type="button" id="btnReqNotification" class="btn btn-outline btn-sm">
+                Aktifkan Izin
+              </button>
+            </div>
+
+            <div class="setting-item-card">
+              <div class="setting-item-info">
+                <h4>Tes Suara Pengingat (Web Audio Chime)</h4>
+                <p>Putar nada lonceng pengingat untuk menguji speaker perangkat Anda</p>
+              </div>
+              <button type="button" id="btnTestSound" class="btn btn-outline btn-sm">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg>
+                Tes Suara
+              </button>
+            </div>
+          </div>
+
+          <!-- Section: Kelola Data Aplikasi -->
+          <div class="settings-section">
+            <h3 class="section-title">Kelola Data Aplikasi</h3>
+
+            <div class="setting-item-card">
+              <div class="setting-item-info">
+                <h4>Cadangkan Data (Export JSON)</h4>
+                <p>Unduh seluruh jadwal dan tugas ke file cadangan JSON</p>
+              </div>
+              <button type="button" id="btnExportData" class="btn btn-outline btn-sm">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Unduh JSON
+              </button>
+            </div>
+
+            <div class="setting-item-card">
+              <div class="setting-item-info">
+                <h4>Reset ke Data Contoh Siswa SMK</h4>
+                <p>Mengembalikan jadwal & tugas ke contoh praktikum dan pelajaran bawaan</p>
+              </div>
+              <button type="button" id="btnResetData" class="btn btn-outline btn-sm text-danger">
+                Reset Data
+              </button>
+            </div>
+          </div>
+
+          <!-- Logout Button -->
+          <div class="logout-wrapper">
+            <button type="button" id="btnLogout" class="btn-logout">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+              </svg>
+              Keluar dari Akun
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Floating Action Button (+) -->
+    <button type="button" id="fabTambah" class="fab-btn" title="Tambah Jadwal atau Tugas">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </svg>
+    </button>
+  </div>
+
+  <!-- ================= MODAL: TAMBAH / EDIT ITEM ================= -->
+  <div id="itemModal" class="modal-backdrop hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modalTitle">Tambah Data Baru</h3>
+        <button type="button" class="btn-close-modal" id="btnCloseItemModal">&times;</button>
+      </div>
+
+      <!-- Type Switcher: Jadwal vs Tugas -->
+      <div class="item-type-switcher" id="modalTypeSwitcher">
+        <button type="button" class="type-btn active" data-type="jadwal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          Jadwal
+        </button>
+        <button type="button" class="type-btn" data-type="tugas">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 11 12 14 22 4"></polyline>
+            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+          </svg>
+          Tugas
+        </button>
+      </div>
+
+      <form id="itemForm" class="modal-form">
+        <input type="hidden" id="itemId">
+        <input type="hidden" id="itemType" value="jadwal">
+
+        <!-- Judul -->
+        <div class="form-group">
+          <label for="itemJudul" id="labelItemJudul">Nama Kegiatan / Pelajaran <span class="required">*</span></label>
+          <input type="text" id="itemJudul" placeholder="Contoh: Praktikum Pemrograman Web" required>
+        </div>
+
+        <!-- Tanggal & Waktu -->
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label for="itemTanggal">Tanggal <span class="required">*</span></label>
+            <input type="date" id="itemTanggal" required>
+          </div>
+          <div class="form-group flex-1">
+            <label for="itemWaktu" id="labelItemWaktu">Waktu Mulai <span class="required">*</span></label>
+            <input type="time" id="itemWaktu" required>
+          </div>
+        </div>
+
+        <!-- Kategori -->
+        <div class="form-group">
+          <label for="itemKategori">Kategori <span class="required">*</span></label>
+          <select id="itemKategori" required>
+            <option value="Pelajaran">Pelajaran</option>
+            <option value="Pribadi">Pribadi</option>
+            <option value="Pekerjaan">Pekerjaan</option>
+            <option value="Lainnya">Lainnya</option>
+          </select>
+        </div>
+
+        <!-- Catatan -->
+        <div class="form-group">
+          <label for="itemCatatan">Catatan Opsional</label>
+          <textarea id="itemCatatan" rows="3" placeholder="Tambahkan rincian, tempat, ruangan, atau perlengkapan yang perlu dibawa..."></textarea>
+        </div>
+
+        <!-- Pengingat -->
+        <div class="form-group">
+          <label for="itemPengingat">Waktu Pengingat</label>
+          <select id="itemPengingat">
+            <option value="Tepat Waktu">Tepat Waktu</option>
+            <option value="5 Menit Sebelumnya">5 Menit Sebelumnya</option>
+            <option value="10 Menit Sebelumnya">10 Menit Sebelumnya</option>
+            <option value="15 Menit Sebelumnya" selected>15 Menit Sebelumnya</option>
+            <option value="30 Menit Sebelumnya">30 Menit Sebelumnya</option>
+            <option value="1 Jam Sebelumnya">1 Jam Sebelumnya</option>
+            <option value="1 Hari Sebelumnya">1 Hari Sebelumnya</option>
+            <option value="Tidak Ada Pengingat">Tidak Ada Pengingat</option>
+          </select>
+        </div>
+
+        <!-- Modal Actions -->
+        <div class="modal-actions">
+          <button type="button" class="btn btn-outline" id="btnCancelItemModal">Batal</button>
+          <button type="submit" class="btn btn-primary" id="btnSubmitItem">Simpan Data</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: EDIT PROFIL ================= -->
+  <div id="profileModal" class="modal-backdrop hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Ubah Informasi Profil</h3>
+        <button type="button" class="btn-close-modal" id="btnCloseProfileModal">&times;</button>
+      </div>
+      <form id="profileForm" class="modal-form">
+        <div class="form-group">
+          <label for="editNama">Nama Pengguna <span class="required">*</span></label>
+          <input type="text" id="editNama" required>
+        </div>
+        <div class="form-group">
+          <label for="editSekolah">Sekolah / Jurusan <span class="required">*</span></label>
+          <input type="text" id="editSekolah" required>
+        </div>
+        <div class="form-group">
+          <label for="editEmail">Email / Kontak <span class="required">*</span></label>
+          <input type="text" id="editEmail" required>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-outline" id="btnCancelProfileModal">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan Profil</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: NOTIFIKASI PENDING ================= -->
+  <div id="notificationCenterModal" class="modal-backdrop hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Pemberitahuan & Pengingat</h3>
+        <button type="button" class="btn-close-modal" id="btnCloseNotifCenter">&times;</button>
+      </div>
+      <div class="notification-center-content">
+        <p class="text-muted" style="margin-bottom: 12px; font-size: 0.9rem;">
+          Daftar jadwal dan tugas yang memiliki jadwal pengingat untuk hari ini:
+        </p>
+        <div id="notifCenterList" class="items-list">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-primary" id="btnDismissNotifCenter">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: KONFIRMASI HAPUS ================= -->
+  <div id="confirmDeleteModal" class="modal-backdrop hidden">
+    <div class="modal-card modal-confirm">
+      <div class="confirm-icon-danger">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="3 6 5 6 21 6"></polyline>
+          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          <line x1="10" y1="11" x2="10" y2="17"></line>
+          <line x1="14" y1="11" x2="14" y2="17"></line>
+        </svg>
+      </div>
+      <h3 style="margin-bottom: 8px;">Hapus Data Ini?</h3>
+      <p id="confirmDeleteText" class="text-muted">Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.</p>
+      <div class="modal-actions" style="margin-top: 20px;">
+        <button type="button" class="btn btn-outline" id="btnCancelDelete">Batal</button>
+        <button type="button" class="btn btn-danger" id="btnConfirmDelete">Ya, Hapus</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- JavaScript Application Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
